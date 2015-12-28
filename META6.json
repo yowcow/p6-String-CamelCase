@@ -1,0 +1,17 @@
+{
+  "name" : "String::CamelCase",
+  "source-url" : "",
+  "perl" : "v6",
+  "resources" : [ ],
+  "build-depends" : [ ],
+  "provides" : {
+    "String::CamelCase" : "lib/String/CamelCase.pm6"
+  },
+  "depends" : [ ],
+  "description" : "blah blah blah",
+  "test-depends" : [ ],
+  "version" : "*",
+  "authors" : [
+    "yowcow"
+  ]
+}
