@@ -14,7 +14,7 @@ sub decamelize(Str $given, Str $expr = '-') is export(:DEFAULT) returns Str {
 
 =head1 NAME
 
-String::CamelCase - Camelize and decamelize given string
+String::CamelCase - Camelizes and decamelizes given string
 
 =head1 SYNOPSIS
 

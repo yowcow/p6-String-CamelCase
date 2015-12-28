@@ -1,7 +1,9 @@
+[![Build Status](https://travis-ci.org/yowcow/p6-String-CamelCase.svg?branch=master)](https://travis-ci.org/yowcow/p6-String-CamelCase)
+
 NAME
 ====
 
-String::CamelCase - blah blah blah
+String::CamelCase - Camelizes and decamelizes given string
 
 SYNOPSIS
 ========
@@ -11,7 +13,7 @@ SYNOPSIS
 DESCRIPTION
 ===========
 
-String::CamelCase is ...
+String::CamelCase is a module to camelize and decamelize a string.
 
 AUTHOR
 ======
