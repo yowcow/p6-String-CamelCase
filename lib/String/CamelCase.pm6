@@ -3,7 +3,7 @@ use v6;
 unit module String::CamelCase;
 
 sub camelize(Str $given) is export(:DEFAULT) returns Str {
-    ''
+    $given.split(/\-|_/).map(-> $word { $word.tclc }).join;
 }
 
 sub decamelize(Str $given, Str $expr = '-') is export(:DEFAULT) returns Str {
