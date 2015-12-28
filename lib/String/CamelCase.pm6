@@ -1,11 +1,12 @@
 use v6;
-unit class String::CamelCase;
 
-method camelize(Str $given) returns Str is export {
+unit module String::CamelCase;
+
+sub camelize(Str $given) is export(:DEFAULT) returns Str {
     ''
 }
 
-method decamelize(Str $given) returns Str is export {
+sub decamelize(Str $given, Str $expr = '-') is export(:DEFAULT) returns Str {
     ''
 }
 
@@ -23,7 +24,7 @@ String::CamelCase - Camelize and decamelize given string
 
 String::CamelCase is a module to camelize and decamelize a string.
 
-=head1 METHODS
+=head1 FUNCTIONS
 
 =head2 camelize (Str) returns Str
 
