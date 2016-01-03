@@ -15,6 +15,33 @@ DESCRIPTION
 
 String::CamelCase is a module to camelize and decamelize a string.
 
+FUNCTIONS
+=========
+
+### camelize (Str) returns Str
+
+    camelize("hoge_fuga");
+    # => "HogeFuga"
+
+    camelize("hoge-fuga");
+    # => "HogeFuga"
+
+### decamelize (Str $string, [Str $connector = '-']) returns Str
+
+    decamelize("HogeFuga");
+    # => hoge-fuga
+
+    decmalieze("HogeFuga", "_");
+    # => hoge_fuga
+
+### wordsplit (Str $string) returns Array
+
+    wordsplit("HogeFuga");
+    # => ["Hoge", "Fuga"]
+
+    wordsplit("hoge-fuga");
+    # => ["hoge", "fuga"]
+
 AUTHOR
 ======
 

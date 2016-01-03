@@ -1,6 +1,6 @@
 {
   "name" : "String::CamelCase",
-  "source-url" : "",
+  "source-url" : "git@github.com:yowcow/p6-String-CamelCase.git",
   "perl" : "v6",
   "resources" : [ ],
   "build-depends" : [ ],
@@ -8,9 +8,11 @@
     "String::CamelCase" : "lib/String/CamelCase.pm6"
   },
   "depends" : [ ],
-  "description" : "blah blah blah",
-  "test-depends" : [ ],
-  "version" : "*",
+  "description" : "Camelizes/decamelizes a given string",
+  "test-depends" : [
+    "Test"
+  ],
+  "version" : "0.0.1",
   "authors" : [
     "yowcow"
   ]
