@@ -93,7 +93,7 @@ String::CamelCase is a module to camelize and decamelize a string.
 
 =head1 AUTHOR
 
-yowcow <yowcow@cpan.org>
+Yoko Ohyama <yowcow@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
