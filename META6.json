@@ -10,7 +10,8 @@
   "depends" : [ ],
   "description" : "Camelizes/decamelizes a given string",
   "test-depends" : [
-    "Test"
+    "Test",
+    "Test::META"
   ],
   "version" : "0.0.1",
   "authors" : [
