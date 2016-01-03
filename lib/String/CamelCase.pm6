@@ -80,7 +80,7 @@ String::CamelCase is a module to camelize and decamelize a string.
     decamelize("HogeFuga");
     # => hoge-fuga
 
-    decmalieze("HogeFuga", "_");
+    decamelize("HogeFuga", "_");
     # => hoge_fuga
 
 =head2 wordsplit (Str $string) returns Array

@@ -31,7 +31,7 @@ FUNCTIONS
     decamelize("HogeFuga");
     # => hoge-fuga
 
-    decmalieze("HogeFuga", "_");
+    decamelize("HogeFuga", "_");
     # => hoge_fuga
 
 ### wordsplit (Str $string) returns Array
