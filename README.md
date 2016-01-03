@@ -45,7 +45,7 @@ FUNCTIONS
 AUTHOR
 ======
 
-yowcow <yowcow@gmail.com>
+Yoko Ohyama <yowcow@cpan.org>
 
 COPYRIGHT AND LICENSE
 =====================
