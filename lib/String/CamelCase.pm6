@@ -2,7 +2,7 @@ use v6;
 
 unit module String::CamelCase;
 
-class String::CamelCase::Decamelize {
+class String::CamelCase::Util {
 
     my regex camelized_block { ^^ (.+?) <before <:Lu>> };
 
@@ -40,8 +40,15 @@ sub camelize(Str $given) is export(:DEFAULT) returns Str {
 }
 
 sub decamelize(Str $given, Str $expr = '-') is export(:DEFAULT) returns Str {
-    my @parsed = String::CamelCase::Decamelize.filter_camelized(String::CamelCase::Decamelize.parse_camelized($given));
-    @parsed.map(-> $word { $word.lc }).join($expr);
+    String::CamelCase::Util.filter_camelized(
+        String::CamelCase::Util.parse_camelized($given)
+        ).map(-> $word { $word.lc }).join($expr);
+}
+
+sub wordsplit(Str $given) is export(:DEFAULT) returns Array {
+    [ String::CamelCase::Util.filter_camelized(
+        String::CamelCase::Util.parse_camelized($given)
+        ).map(-> $word { $word.split(/\-|_/) }).flat ];
 }
 
 =begin pod
@@ -63,7 +70,7 @@ String::CamelCase is a module to camelize and decamelize a string.
 =head2 camelize (Str) returns Str
 
     camelize("hoge_fuga");
-    #=> "HogeFuga"
+    # => "HogeFuga"
 
     camelize("hoge-fuga");
     # => "HogeFuga"
@@ -71,10 +78,18 @@ String::CamelCase is a module to camelize and decamelize a string.
 =head2 decamelize (Str $string, [Str $connector = '-']) returns Str
 
     decamelize("HogeFuga");
-    #=> hoge-fuga
+    # => hoge-fuga
 
     decmalieze("HogeFuga", "_");
-    #=> hoge_fuga
+    # => hoge_fuga
+
+=head2 wordsplit (Str $string) returns Array
+
+    wordsplit("HogeFuga");
+    # => ["Hoge", "Fuga"]
+
+    wordsplit("hoge-fuga");
+    # => ["hoge", "fuga"]
 
 =head1 AUTHOR
 
