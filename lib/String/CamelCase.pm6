@@ -4,10 +4,12 @@ unit module String::CamelCase;
 
 module Util {
 
-    my regex camelized-block { ^^ (.+?) <before <:Lu>> };
+    my regex match-camelized-block { ^^ (.+?) <before <:Lu>> }
+    my regex match-all-upper-case  { ^^ <:Lu>+ $$ }
+    my regex match-camelized-case  { ^^ <:Lu> <:Ll> }
 
     our sub parse-camelized(Str $given) returns Array {
-        my $result = $given ~~ &camelized-block;
+        my $result = $given ~~ &match-camelized-block;
         $result ?? [ ~$result, |parse-camelized(substr $given, $result.to) ]
                 !! [ ~$given ];
     }
@@ -16,8 +18,12 @@ module Util {
 
         return @elems if @elems.elems - 1 <= $from;
 
-        if @elems[ $from ] ~~ m{ ^^ <:Lu>+ $$ } && @elems[ $from + 1 ] !~~ m{ ^^ <:Lu> <:Ll> } {
-
+        if @elems[ $from ] ~~ &match-all-upper-case
+            && @elems[ $from + 1 ] !~~ &match-camelized-case
+        {
+            # If current item consists of <:Lu> only,
+            # and next item DOES NOT begin with <:Lu> <:Ll>,
+            # then combine 2 elements into 1.
             @elems[ $from ] ~= @elems.splice($from + 1, 1)[0];
 
             return filter-camelized(
