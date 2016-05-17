@@ -2,17 +2,17 @@ use v6;
 
 unit module String::CamelCase;
 
-class String::CamelCase::Util {
+module Util {
 
     my regex camelized-block { ^^ (.+?) <before <:Lu>> };
 
-    method parse-camelized(Str $given) returns Array {
+    our sub parse-camelized(Str $given) returns Array {
         my $result = $given ~~ &camelized-block;
-        $result ?? [ ~$result, |self.parse-camelized(substr $given, $result.to) ]
+        $result ?? [ ~$result, |parse-camelized(substr $given, $result.to) ]
                 !! [ ~$given ];
     }
 
-    method filter-camelized(@elems, Int $from = 0) returns Array {
+    our sub filter-camelized(@elems, Int $from = 0) returns Array {
 
         return @elems if @elems.elems - 1 <= $from;
 
@@ -20,13 +20,13 @@ class String::CamelCase::Util {
 
             @elems[ $from ] ~= @elems.splice($from + 1, 1)[0];
 
-            return self.filter-camelized(
+            return filter-camelized(
                 @elems,
                 $from
             );
         }
         else {
-            return self.filter-camelized(
+            return filter-camelized(
                 @elems,
                 $from + 1
             );
@@ -35,19 +35,19 @@ class String::CamelCase::Util {
 }
 
 
-sub camelize(Str $given) is export(:DEFAULT) returns Str {
+our sub camelize(Str $given) is export(:DEFAULT) returns Str {
     $given.split(/\-|_/).map(-> $word { $word.tclc }).join;
 }
 
-sub decamelize(Str $given, Str $expr = '-') is export(:DEFAULT) returns Str {
-    String::CamelCase::Util.filter-camelized(
-        String::CamelCase::Util.parse-camelized($given)
+our sub decamelize(Str $given, Str $expr = '-') is export(:DEFAULT) returns Str {
+    String::CamelCase::Util::filter-camelized(
+        String::CamelCase::Util::parse-camelized($given)
         ).map(-> $word { $word.lc }).join($expr);
 }
 
-sub wordsplit(Str $given) is export(:DEFAULT) returns Array {
-    [ String::CamelCase::Util.filter-camelized(
-        String::CamelCase::Util.parse-camelized($given)
+our sub wordsplit(Str $given) is export(:DEFAULT) returns Array {
+    [ String::CamelCase::Util::filter-camelized(
+        String::CamelCase::Util::parse-camelized($given)
         ).map(-> $word { $word.split(/\-|_/) }).flat ];
 }
 
