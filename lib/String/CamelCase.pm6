@@ -9,7 +9,12 @@ our sub camelize(Str $given) is export(:DEFAULT) returns Str {
 our sub decamelize(Str $given is copy, Str $expr = '-') is export(:DEFAULT) returns Str {
     my Str ($p0, $p1, $p2, $p3, $t);
 
-    $given ~~ s:c:g! (<-[a..z A..Z]>?) (<[A..Z]>*) (<[A..Z]>) (<[a..z]>?) !{
+    $given ~~ s:c:g!
+        (<-[a..z A..Z]>?)
+        (<[A..Z]>*)
+        (<[A..Z]>)
+        (<[a..z]>?)
+    !{
         ($p0, $p1, $p2, $p3) = (~$0, ~$1.lc, ~$2.lc, ~$3);
         $t = $p0.chars || $/.from == 0 ?? $p0 !! $expr;
         $t ~= $p3 ?? $p1 ?? "{$p1}{$expr}{$p2}{$p3}" !! "{$p2}{$p3}" !! "{$p1}{$p2}";
@@ -19,7 +24,13 @@ our sub decamelize(Str $given is copy, Str $expr = '-') is export(:DEFAULT) retu
     $given;
 }
 
-our sub wordsplit(Str $given) is export(:DEFAULT) returns Array {
+our sub wordsplit(Str $given) is export(:DEFAULT) returns List {
+    $given.split(/
+        <[_ \- \s]>+
+        | \b
+        | <?after <-[A ..Z]>> <?before <:Lu>>
+        | <?after <:Lu>> <?before <:Lu> <:Ll>>
+    /, :skip-empty);
 }
 
 =begin pod
@@ -38,6 +49,8 @@ String::CamelCase is a module to camelize and decamelize a string.
 
 =head1 FUNCTIONS
 
+Following functions are exported:
+
 =head2 camelize (Str) returns Str
 
     camelize("hoge_fuga");
@@ -46,7 +59,7 @@ String::CamelCase is a module to camelize and decamelize a string.
     camelize("hoge-fuga");
     # => "HogeFuga"
 
-=head2 decamelize (Str $string, [Str $connector = '-']) returns Str
+=head2 decamelize (Str, [Str $expr = '-']) returns Str
 
     decamelize("HogeFuga");
     # => hoge-fuga
@@ -54,13 +67,17 @@ String::CamelCase is a module to camelize and decamelize a string.
     decamelize("HogeFuga", "_");
     # => hoge_fuga
 
-=head2 wordsplit (Str $string) returns Array
+=head2 wordsplit (Str) returns List
 
     wordsplit("HogeFuga");
     # => ["Hoge", "Fuga"]
 
     wordsplit("hoge-fuga");
     # => ["hoge", "fuga"]
+
+=head1 SEE ALSO
+
+L<String::CamelCase|http://search.cpan.org/dist/String-CamelCase/lib/String/CamelCase.pm>
 
 =head1 AUTHOR
 
