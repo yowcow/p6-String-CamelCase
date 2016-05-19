@@ -2,53 +2,18 @@ use v6;
 
 unit module String::CamelCase;
 
-module Util {
-
-    my regex match-camelized-block { ^^ (.+?) <before <:Lu>> }
-    my regex match-all-upper-case  { ^^ <:Lu>+ $$ }
-    my regex match-camelized-case  { ^^ <:Lu> <:Ll> }
-
-    our sub parse-camelized(Str $given) returns Array {
-        my $result = $given ~~ &match-camelized-block;
-        $result ?? [ ~$result, |parse-camelized(substr $given, $result.to) ]
-                !! [ ~$given ];
-    }
-
-    our sub filter-camelized(@elems, Int $from = 0) returns Array {
-
-        return @elems if @elems.elems - 1 <= $from;
-
-        if @elems[ $from ] ~~ &match-all-upper-case
-            && @elems[ $from + 1 ] !~~ &match-camelized-case
-        {
-            # If current item consists of <:Lu> only,
-            # and next item DOES NOT begin with <:Lu> <:Ll>,
-            # then combine 2 elements into 1.
-            @elems[ $from ] ~= @elems.splice($from + 1, 1)[0];
-
-            return filter-camelized(
-                @elems,
-                $from
-            );
-        }
-        else {
-            return filter-camelized(
-                @elems,
-                $from + 1
-            );
-        }
-    }
-}
-
-
 our sub camelize(Str $given) is export(:DEFAULT) returns Str {
     $given.split(/\-|_/).map(-> $word { $word.tclc }).join;
 }
 
-our sub decamelize(Str $given, Str $expr = '-') is export(:DEFAULT) returns Str {
-    String::CamelCase::Util::filter-camelized(
-        String::CamelCase::Util::parse-camelized($given)
-        ).map(-> $word { $word.lc }).join($expr);
+our sub decamelize(Str $given is copy, Str $expr = '-') is export(:DEFAULT) returns Str {
+
+    $given ~~ s:g! (<:Lu>*) (<:Ll>*) (<:Lu>) (<:Ll>*) !{
+        my Str ($p0, $p1, $p2, $p3) = ~$0.lc, ~$1, ~$2.lc, ~$3;
+        !$p1 && !$p3 ?? $p0 ~ $p2 !! "$p0$p1" ~ $expr ~ "$p2$p3";
+    }!;
+
+    $given;
 }
 
 our sub wordsplit(Str $given) is export(:DEFAULT) returns Array {

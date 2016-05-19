@@ -5,49 +5,6 @@ use Test;
 
 subtest {
 
-    is String::CamelCase::Util::parse-camelized('foobar'), [<foobar>];
-    is String::CamelCase::Util::parse-camelized('fooBar'), [<foo Bar>];
-    is String::CamelCase::Util::parse-camelized('FooBar'), [<Foo Bar>];
-    is String::CamelCase::Util::parse-camelized('FOOBar'), [<F O O Bar>];
-    is String::CamelCase::Util::parse-camelized('FOOBAR'), [<F O O B A R>];
-    is String::CamelCase::Util::parse-camelized('fooBAR'), [<foo B A R>];
-
-}, 'Test Util::parse-camelized';
-
-subtest {
-
-    subtest {
-        my @result = String::CamelCase::Util::filter-camelized([< F O O Bar Foo Bar foo bar>]);
-
-        is @result, [< FOO Bar Foo Bar foo bar >];
-
-    }, 'Separated :Lu letters are joined, while others remain as they are';
-
-    subtest {
-        my @result = String::CamelCase::Util::filter-camelized([< F O O B A R >]);
-
-        is @result, [< FOOBAR >];
-
-    }, 'All :Lu letters are joined';
-
-    subtest {
-        my @result = String::CamelCase::Util::filter-camelized([<foo B A R>]);
-
-        is @result, [<foo BAR>];
-
-    }, 'Tailing :Lu letters are joined';
-
-}, 'Test Util::filter-camelized';
-
-subtest {
-
-    is decamelize('FooBar'), 'foo-bar';
-    is decamelize('FooBar', '_'), 'foo_bar';
-    is decamelize('FOOBAR'), 'foobar';
-    is decamelize('FOOBar'), 'foo-bar';
-    is decamelize('fooBar'), 'foo-bar';
-    is decamelize('fooBAR'), 'foo-bar';
-
     subtest {
 
         is decamelize('HogeMuge'),       'hoge-muge';
@@ -57,6 +14,15 @@ subtest {
         is decamelize('ADClient'),       'ad-client';
 
     }, 'Taken from p5 String::CamelCase';
+
+    is decamelize('FooBar'), 'foo-bar', 'FooBar => foo-bar';
+    is decamelize('FooBar', '_'), 'foo_bar', 'FooBar => foo_bar';
+    is decamelize('FOOBAR'), 'foobar',  'FOOBAR => foobar';
+    is decamelize('FOOBar'), 'foo-bar', 'FOOBar => foo-bar';
+    is decamelize('fooBar'), 'foo-bar', 'fooBar => foo-bar';
+    is decamelize('fooBAR'), 'foo-bar', 'fooBAR => foo-bar';
+    is decamelize('ClientADClient'), 'client-ad-client', 'ClientADClient => client-ad-client';
+    is decamelize('123fooBar'), '123foo-bar', '123fooBar => 123foo-bar';
 
 }, 'Test decamelize';
 
