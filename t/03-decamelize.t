@@ -21,8 +21,8 @@ subtest {
     is decamelize('FOOBar'), 'foo-bar', 'FOOBar => foo-bar';
     is decamelize('fooBar'), 'foo-bar', 'fooBar => foo-bar';
     is decamelize('fooBAR'), 'foo-bar', 'fooBAR => foo-bar';
-    is decamelize('ClientADClient'), 'client-ad-client', 'ClientADClient => client-ad-client';
     is decamelize('123fooBar'), '123foo-bar', '123fooBar => 123foo-bar';
+    is decamelize('ClADClHoge'), 'cl-ad-cl-hoge', 'ClADClHoge => cl-ad-cl-hoge';
 
 }, 'Test decamelize';
 

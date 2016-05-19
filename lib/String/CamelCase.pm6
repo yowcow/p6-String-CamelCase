@@ -7,19 +7,19 @@ our sub camelize(Str $given) is export(:DEFAULT) returns Str {
 }
 
 our sub decamelize(Str $given is copy, Str $expr = '-') is export(:DEFAULT) returns Str {
+    my Str ($p0, $p1, $p2, $p3, $t);
 
-    $given ~~ s:g! (<:Lu>*) (<:Ll>*) (<:Lu>) (<:Ll>*) !{
-        my Str ($p0, $p1, $p2, $p3) = ~$0.lc, ~$1, ~$2.lc, ~$3;
-        !$p1 && !$p3 ?? $p0 ~ $p2 !! "$p0$p1" ~ $expr ~ "$p2$p3";
+    $given ~~ s:c:g! (<-[a..z A..Z]>?) (<[A..Z]>*) (<[A..Z]>) (<[a..z]>?) !{
+        ($p0, $p1, $p2, $p3) = (~$0, ~$1.lc, ~$2.lc, ~$3);
+        $t = $p0.chars || $/.from == 0 ?? $p0 !! $expr;
+        $t ~= $p3 ?? $p1 ?? "{$p1}{$expr}{$p2}{$p3}" !! "{$p2}{$p3}" !! "{$p1}{$p2}";
+        $t;
     }!;
 
     $given;
 }
 
 our sub wordsplit(Str $given) is export(:DEFAULT) returns Array {
-    [ String::CamelCase::Util::filter-camelized(
-        String::CamelCase::Util::parse-camelized($given)
-        ).map(-> $word { $word.split(/\-|_/) }).flat ];
 }
 
 =begin pod
