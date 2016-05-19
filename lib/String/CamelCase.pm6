@@ -9,7 +9,7 @@ our sub camelize(Str $given) is export(:DEFAULT) returns Str {
 our sub decamelize(Str $given is copy, Str $expr = '-') is export(:DEFAULT) returns Str {
     my Str ($p0, $p1, $p2, $p3, $t);
 
-    $given ~~ s:c:g!
+    $given ~~ s:g!
         (<-[a..z A..Z]>?)
         (<[A..Z]>*)
         (<[A..Z]>)
