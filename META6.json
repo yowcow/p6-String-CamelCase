@@ -12,7 +12,7 @@
     "String::CamelCase" : "lib/String/CamelCase.pm6"
   },
   "resources" : [ ],
-  "source-url" : "git://github.com/yowcow/p6-String-CamelCase.git",
+  "source-url" : "https://github.com/yowcow/p6-String-CamelCase.git",
   "tags" : [
     "text",
     "string",
